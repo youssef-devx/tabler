@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thomas-lowry/figma-plugin-ds/dist/figma-plugin-ds.css">
+<style>
+  body {
+    user-select: none;
+  }
+
+  .hidden {
+    opacity: 0;
+  }
+</style>
+
+<p id="loading">Loading...</p>
+<div class="hidden" style="padding: 12px;">
+  <h2 style="margin: 0px;">Tabler</h2>
+  <p>Rows: <input id="rows-count" class="input__field" value="3" type="number"></p>
+  <p>Columns: <input id="cols-count" class="input__field" value="3" type="number"></p>
+  <div style="display: flex; gap: 16px">
+    <button id="create" class="button button--primary">Create</button>
+    <button id="cancel" class="button--secondary-destructive"
+      style="border-radius: var(--border-radius-large);">Cancel</button>
+  </div>
+</div>
+
+<script>
+
+  document.onload = () => {
+    document.getElementById("loading").remove()
+    document.querySelector(".hidden").classList.remove("hidden")
+  }
+  document.onload()
+
+  document.getElementById('create').onclick = () => {
+    const rowsCountTxt = document.getElementById('rows-count');
+    const colsCountTxt = document.getElementById('cols-count');
+    const rowsCount = parseInt(rowsCountTxt.value, 10);
+    const colsCount = parseInt(colsCountTxt.value, 10);
+    parent.postMessage({ pluginMessage: { type: 'create-table', rowsCount, colsCount } }, '*')
+  }
+
+  document.getElementById('cancel').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+  }
+
+</script>
